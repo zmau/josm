@@ -35,6 +35,10 @@ import org.openstreetmap.josm.data.osm.Tagged;
 import org.openstreetmap.josm.data.osm.Way;
 import org.openstreetmap.josm.data.osm.search.PushbackTokenizer.Range;
 import org.openstreetmap.josm.data.osm.search.PushbackTokenizer.Token;
+import org.openstreetmap.josm.gui.mappaint.Environment;
+import org.openstreetmap.josm.gui.mappaint.mapcss.Selector;
+import org.openstreetmap.josm.gui.mappaint.mapcss.parsergen.MapCSSParser;
+import org.openstreetmap.josm.gui.mappaint.mapcss.parsergen.ParseException;
 import org.openstreetmap.josm.gui.tagging.presets.TaggingPreset;
 import org.openstreetmap.josm.gui.tagging.presets.TaggingPresetMenu;
 import org.openstreetmap.josm.gui.tagging.presets.TaggingPresetSeparator;
@@ -1622,7 +1626,7 @@ public class SearchCompiler {
     }
 
     static Match compileMapCSS(String mapCSS) throws SearchParseError {
-       /* try {
+        try {
             final List<Selector> selectors = new MapCSSParser(new StringReader(mapCSS)).selectors();
             return new Match() {
                 @Override
@@ -1637,9 +1641,7 @@ public class SearchCompiler {
             };
         } catch (ParseException e) {
             throw new SearchParseError(tr("Failed to parse MapCSS selector"), e);
-        }*/
-        System.out.println("[warning] call to removed method SearchCompiler.compileMapCSS()");
-        return null;
+        }
     }
 
     /**

@@ -52,6 +52,9 @@ import org.openstreetmap.josm.gui.mappaint.mapcss.ConditionFactory.SimpleKeyValu
 import org.openstreetmap.josm.gui.mappaint.mapcss.Selector.ChildOrParentSelector;
 import org.openstreetmap.josm.gui.mappaint.mapcss.Selector.GeneralSelector;
 import org.openstreetmap.josm.gui.mappaint.mapcss.Selector.OptimizedGeneralSelector;
+import org.openstreetmap.josm.gui.mappaint.mapcss.parsergen.MapCSSParser;
+import org.openstreetmap.josm.gui.mappaint.mapcss.parsergen.ParseException;
+import org.openstreetmap.josm.gui.mappaint.mapcss.parsergen.TokenMgrError;
 import org.openstreetmap.josm.gui.mappaint.styleelement.LineElement;
 import org.openstreetmap.josm.io.CachedFile;
 import org.openstreetmap.josm.tools.CheckParameterUtil;
@@ -415,7 +418,7 @@ public class MapCSSStyleSource extends StyleSource {
             relationRules.clear();
             multipolygonRules.clear();
             canvasRules.clear();
-            /*try (InputStream in = getSourceInputStream()) {
+            try (InputStream in = getSourceInputStream()) {
                 try {
                     // evaluate @media { ... } blocks
                     MapCSSParser preprocessor = new MapCSSParser(in, "UTF-8", MapCSSParser.LexicalState.PREPROCESSOR);
@@ -444,7 +447,7 @@ public class MapCSSStyleSource extends StyleSource {
                 Logging.warn(tr("Failed to parse Mappaint styles from ''{0}''. Error was: {1}", url, e.getMessage()));
                 Logging.error(e);
                 logError(new ParseException(e.getMessage())); // allow e to be garbage collected, it links to the entire token stream
-            }*/
+            }
             // optimization: filter rules for different primitive types
             for (MapCSSRule r: rules) {
                 // find the rightmost selector, this must be a GeneralSelector

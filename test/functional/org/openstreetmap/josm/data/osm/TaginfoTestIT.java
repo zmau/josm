@@ -19,6 +19,7 @@ import org.junit.Test;
 import org.openstreetmap.josm.data.coor.LatLon;
 import org.openstreetmap.josm.data.validation.tests.MapCSSTagChecker;
 import org.openstreetmap.josm.data.validation.tests.TagChecker;
+import org.openstreetmap.josm.gui.mappaint.mapcss.parsergen.ParseException;
 import org.openstreetmap.josm.gui.tagging.presets.TaggingPresets;
 import org.openstreetmap.josm.testutils.JOSMTestRules;
 import org.openstreetmap.josm.tools.HttpClient;
@@ -45,7 +46,7 @@ public class TaginfoTestIT {
      * @throws ParseException if any MapCSS parsing error occurs
      */
     @Test
-    public void testCheckPopularTags() throws SAXException, IOException/*, ParseException */{
+    public void testCheckPopularTags() throws SAXException, IOException, ParseException {
         TaggingPresets.readFromPreferences();
         new TagChecker().initialize();
         MapCSSTagChecker mapCssTagChecker = new MapCSSTagChecker();

@@ -1,13 +1,13 @@
 // License: GPL. For details, see LICENSE file.
 package org.openstreetmap.josm.data.validation.tests;
 
-import static org.openstreetmap.josm.data.validation.tests.MapCSSTagChecker.FixCommand.evaluateObject;
 import static org.openstreetmap.josm.tools.I18n.tr;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
+import java.io.StringReader;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -29,6 +29,7 @@ import java.util.function.Predicate;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.openstreetmap.josm.Main;
 import org.openstreetmap.josm.command.ChangePropertyCommand;
 import org.openstreetmap.josm.command.ChangePropertyKeyCommand;
 import org.openstreetmap.josm.command.Command;
@@ -57,6 +58,9 @@ import org.openstreetmap.josm.gui.mappaint.mapcss.MapCSSStyleSource;
 import org.openstreetmap.josm.gui.mappaint.mapcss.Selector;
 import org.openstreetmap.josm.gui.mappaint.mapcss.Selector.AbstractSelector;
 import org.openstreetmap.josm.gui.mappaint.mapcss.Selector.GeneralSelector;
+import org.openstreetmap.josm.gui.mappaint.mapcss.parsergen.MapCSSParser;
+import org.openstreetmap.josm.gui.mappaint.mapcss.parsergen.ParseException;
+import org.openstreetmap.josm.gui.mappaint.mapcss.parsergen.TokenMgrError;
 import org.openstreetmap.josm.io.CachedFile;
 import org.openstreetmap.josm.io.IllegalDataException;
 import org.openstreetmap.josm.io.UTFInputStreamReader;
@@ -361,14 +365,14 @@ public class MapCSSTagChecker extends Test.TagTest {
             return check;
         }
 
-        static ParseResult readMapCSS(Reader css) /*throws ParseException */{
+        static ParseResult readMapCSS(Reader css) throws ParseException {
             CheckParameterUtil.ensureParameterNotNull(css, "css");
 
             final MapCSSStyleSource source = new MapCSSStyleSource("");
-            /*final MapCSSParser preprocessor = new MapCSSParser(css, MapCSSParser.LexicalState.PREPROCESSOR);
+            final MapCSSParser preprocessor = new MapCSSParser(css, MapCSSParser.LexicalState.PREPROCESSOR);
             final StringReader mapcss = new StringReader(preprocessor.pp_root(source));
             final MapCSSParser parser = new MapCSSParser(mapcss, MapCSSParser.LexicalState.DEFAULT);
-            parser.sheet(source);*/
+            parser.sheet(source);
             // Ignore "meta" rule(s) from external rules of JOSM wiki
             removeMetaRules(source);
             // group rules with common declaration block
@@ -731,7 +735,7 @@ public class MapCSSTagChecker extends Test.TagTest {
      * @throws IOException if any I/O error occurs
      * @since 7275
      */
-    public synchronized ParseResult addMapCSS(String url) throws /*ParseException, */IOException {
+    public synchronized ParseResult addMapCSS(String url) throws ParseException, IOException {
         CheckParameterUtil.ensureParameterNotNull(url, "url");
         ParseResult result;
         try (CachedFile cache = new CachedFile(url);
@@ -759,7 +763,7 @@ public class MapCSSTagChecker extends Test.TagTest {
                 continue;
             }
             String i = source.url;
-            /*try {
+            try {
                 if (!i.startsWith("resource:")) {
                     Logging.info(tr("Adding {0} to tag checker", i));
                 } else if (Logging.isDebugEnabled()) {
@@ -775,7 +779,7 @@ public class MapCSSTagChecker extends Test.TagTest {
             } catch (ParseException | TokenMgrError ex) {
                 Logging.warn(tr("Failed to add {0} to tag checker", i));
                 Logging.warn(ex);
-            }*/
+            }
         }
     }
 
@@ -838,12 +842,12 @@ public class MapCSSTagChecker extends Test.TagTest {
      */
     public static void reloadRule(SourceEntry rule) {
         MapCSSTagChecker tagChecker = OsmValidator.getTest(MapCSSTagChecker.class);
-        /*if (tagChecker != null) {
+        if (tagChecker != null) {
             try {
                 tagChecker.addMapCSS(rule.url);
             } catch (IOException | ParseException | TokenMgrError e) {
                 Logging.warn(e);
             }
-        }*/
+        }
     }
 }
