@@ -1,0 +1,16 @@
+/bin/
+*.class
+build/CONTRIBUTION
+build/README
+build/REVISION
+build/org/glassfish/json/messages.properties
+build/LICENSE
+data/projection/custom-epsg
+dist/josm-custom.jar
+src/org/openstreetmap/josm/gui/mappaint/mapcss/parsergen/MapCSSParser.java
+src/org/openstreetmap/josm/gui/mappaint/mapcss/parsergen/MapCSSParserConstants.java
+src/org/openstreetmap/josm/gui/mappaint/mapcss/parsergen/MapCSSParserTokenManager.java
+src/org/openstreetmap/josm/gui/mappaint/mapcss/parsergen/ParseException.java
+src/org/openstreetmap/josm/gui/mappaint/mapcss/parsergen/SimpleCharStream.java
+src/org/openstreetmap/josm/gui/mappaint/mapcss/parsergen/Token.java
+src/org/openstreetmap/josm/gui/mappaint/mapcss/parsergen/TokenMgrError.java
