@@ -25,7 +25,6 @@ import java.nio.file.InvalidPathException;
 import java.nio.file.Paths;
 import java.security.AllPermission;
 import java.security.CodeSource;
-import java.security.GeneralSecurityException;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.PermissionCollection;
@@ -135,7 +134,6 @@ import org.openstreetmap.josm.gui.util.RedirectInputMap;
 import org.openstreetmap.josm.gui.util.WindowGeometry;
 import org.openstreetmap.josm.gui.widgets.UrlLabel;
 import org.openstreetmap.josm.io.CachedFile;
-import org.openstreetmap.josm.io.CertificateAmendment;
 import org.openstreetmap.josm.io.DefaultProxySelector;
 import org.openstreetmap.josm.io.FileWatcher;
 import org.openstreetmap.josm.io.MessageNotifier;
@@ -971,14 +969,14 @@ public class MainApplication extends Main {
                 }
             }
         }
-
+/*
         try {
             CertificateAmendment.addMissingCertificates();
         } catch (IOException | GeneralSecurityException ex) {
             Logging.warn(ex);
             Logging.warn(Logging.getErrorMessage(Utils.getRootCause(ex)));
         }
-        Authenticator.setDefault(DefaultAuthenticator.getInstance());
+  */      Authenticator.setDefault(DefaultAuthenticator.getInstance());
         DefaultProxySelector proxySelector = new DefaultProxySelector(ProxySelector.getDefault());
         ProxySelector.setDefault(proxySelector);
         OAuthAccessTokenHolder.getInstance().init(CredentialsManager.getInstance());
