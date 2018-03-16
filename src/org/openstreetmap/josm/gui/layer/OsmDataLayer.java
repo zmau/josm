@@ -478,7 +478,7 @@ public class OsmDataLayer extends AbstractModifiableLayer implements Listener, D
         }
 
         Rendering painter = MapRendererFactory.getInstance().createActiveRenderer(g, mv, inactive);
-        painter.render(data, virtual, box);
+        painter.render(data, virtual, box); // everything except zoom slider, distancer and diagonal tile
         MainApplication.getMap().conflictDialog.paintConflicts(g, mv);
     }
 

@@ -496,5 +496,9 @@ public class MapViewPath extends MapPath2D {
                 points.clear();
             }
         }
+
+        public MapViewPath zoomedBy(double zoomFactor){
+            MapViewPath result = new MapViewPath();
+        }
     }
 }

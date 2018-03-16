@@ -120,7 +120,7 @@ public class AreaElement extends StyleElement {
 
     @Override
     public void paintPrimitive(OsmPrimitive osm, MapPaintSettings paintSettings, StyledMapRenderer painter,
-            boolean selected, boolean outermember, boolean member) {
+            boolean selected, boolean outermember, boolean member) { // nothing in Phoenix example
         Color myColor = color;
         if (osm instanceof Way) {
             if (color != null) {

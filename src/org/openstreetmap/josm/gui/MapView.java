@@ -467,7 +467,7 @@ LayerManager.LayerChangeListener, MainLayerManager.ActiveLayerChangeListener {
             if (layer.getOpacity() < 1) {
                 g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, (float) layer.getOpacity()));
             }
-            painter.paint(paintGraphics);
+            painter.paint(paintGraphics); // everything except zoom slider and distancer
             g.setPaintMode();
         } catch (JosmRuntimeException | IllegalArgumentException | IllegalStateException t) {
             BugReport.intercept(t).put("layer", layer).warn();

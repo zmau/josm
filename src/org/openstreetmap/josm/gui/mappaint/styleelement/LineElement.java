@@ -110,7 +110,7 @@ public class LineElement extends StyleElement {
 
     @Override
     public void paintPrimitive(OsmPrimitive primitive, MapPaintSettings paintSettings, StyledMapRenderer painter,
-            boolean selected, boolean outermember, boolean member) {
+            boolean selected, boolean outermember, boolean member) {  //everything except zoom slider, distancer, diagonal tile, yellow plus signs, turquoise dots and text
         /* show direction arrows, if draw.segment.relevant_directions_only is not set,
         the way is tagged with a direction key
         (even if the tag is negated as in oneway=false) or the way is selected */
@@ -156,7 +156,7 @@ public class LineElement extends StyleElement {
 
         if (primitive instanceof Way) {
             Way w = (Way) primitive;
-            painter.drawWay(w, myColor, myLine, myDashLine, myDashedColor, offset, showOrientation,
+            painter.drawWay(w, myColor, myLine, myDashLine, myDashedColor, offset, showOrientation, // all real lines
                     showOnlyHeadArrowOnly, showOneway, onewayReversed);
 
             if ((paintSettings.isShowOrderNumber() || (paintSettings.isShowOrderNumberOnSelectedWay() && selected))
@@ -166,7 +166,7 @@ public class LineElement extends StyleElement {
                 for (Node n : w.getNodes()) {
                     if (lastN != null) {
                         orderNumber++;
-                        painter.drawOrderNumber(lastN, n, orderNumber, myColor);
+                        painter.drawOrderNumber(lastN, n, orderNumber, myColor); // probably nothing
                     }
                     lastN = n;
                 }

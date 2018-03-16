@@ -192,7 +192,7 @@ public class StyledMapRenderer extends AbstractMapRenderer {
          * @param painter The painter to paint the style.
          */
         public void paintPrimitive(MapPaintSettings paintSettings, StyledMapRenderer painter) {
-            style.paintPrimitive(
+            style.paintPrimitive( //everything except zoom slider, distancer, diagonal tile and yellow plus signs
                     osm,
                     paintSettings,
                     painter,
@@ -1612,15 +1612,15 @@ public class StyledMapRenderer extends AbstractMapRenderer {
             StyleRecord[] sorted = allStyleElems.toArray(new StyleRecord[0]);
             Arrays.parallelSort(sorted, null);
 
-            if (!benchmark.renderDraw(allStyleElems)) {
+            if (!benchmark.renderDraw(allStyleElems)) { // probably nothing
                 return;
             }
 
-            for (StyleRecord record : sorted) {
+            for (StyleRecord record : sorted) {//everything except zoom slider, distancer, diagonal tile and yellow plus signs
                 paintRecord(record);
             }
 
-            drawVirtualNodes(data, bbox);
+            drawVirtualNodes(data, bbox); // yellow plus signs
 
             benchmark.renderDone();
         } catch (JosmRuntimeException | IllegalArgumentException | IllegalStateException e) {
