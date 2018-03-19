@@ -983,89 +983,95 @@ public class MainApplication extends Main {
 
         setupCallbacks();
 
+        boolean skipJosmGui = true;
         final SplashScreen splash = GuiHelper.runInEDTAndWaitAndReturn(SplashScreen::new);
         final SplashScreen.SplashProgressMonitor monitor = splash.getProgressMonitor();
-        monitor.beginTask(tr("Initializing"));
-        GuiHelper.runInEDT(() -> splash.setVisible(Config.getPref().getBoolean("draw.splashscreen", true)));
-        Main.setInitStatusListener(new InitStatusListener() {
-
-            @Override
-            public Object updateStatus(String event) {
-                monitor.beginTask(event);
-                return event;
-            }
-
-            @Override
-            public void finish(Object status) {
-                if (status instanceof String) {
-                    monitor.finishTask((String) status);
-                }
-            }
-        });
-
         Collection<PluginInformation> pluginsToLoad = null;
+        if(!skipJosmGui){
+            monitor.beginTask(tr("Initializing"));
+            GuiHelper.runInEDT(() -> splash.setVisible(Config.getPref().getBoolean("draw.splashscreen", true)));
+            Main.setInitStatusListener(new InitStatusListener() {
 
-        if (!skipLoadingPlugins) {
-            pluginsToLoad = updateAndLoadEarlyPlugins(splash, monitor);
+                @Override
+                public Object updateStatus(String event) {
+                    monitor.beginTask(event);
+                    return event;
+                }
+
+                @Override
+                public void finish(Object status) {
+                    if (status instanceof String) {
+                        monitor.finishTask((String) status);
+                    }
+                }
+            });
+
+            if (!skipLoadingPlugins) {
+                pluginsToLoad = updateAndLoadEarlyPlugins(splash, monitor);
+            }
+
+            monitor.indeterminateSubTask(tr("Setting defaults"));
+            setupUIManager();
         }
-
-        monitor.indeterminateSubTask(tr("Setting defaults"));
-        setupUIManager();
         toolbar = new ToolbarPreferences();
         ProjectionPreference.setProjection();
-        setupNadGridSources();
-        GuiHelper.translateJavaInternalMessages();
-        preConstructorInit();
+        if(!skipJosmGui){
+            setupNadGridSources();
+            GuiHelper.translateJavaInternalMessages();
+            preConstructorInit();
 
-        monitor.indeterminateSubTask(tr("Creating main GUI"));
+            monitor.indeterminateSubTask(tr("Creating main GUI"));
+        }
         final Main main = new MainApplication(mainFrame);
         main.initialize();
 
-        if (!skipLoadingPlugins) {
-            loadLatePlugins(splash, monitor, pluginsToLoad);
-        }
-
-        // Wait for splash disappearance (fix #9714)
-        GuiHelper.runInEDTAndWait(() -> {
-            splash.setVisible(false);
-            splash.dispose();
-            mainFrame.setVisible(true);
-        });
-
-        boolean maximized = Config.getPref().getBoolean("gui.maximized", false);
-        if ((!args.hasOption(Option.NO_MAXIMIZE) && maximized) || args.hasOption(Option.MAXIMIZE)) {
-            mainFrame.setMaximized(true);
-        }
-        if (menu.fullscreenToggleAction != null) {
-            menu.fullscreenToggleAction.initial();
-        }
-
-        SwingUtilities.invokeLater(new GuiFinalizationWorker(args, proxySelector));
-
-        if (Main.isPlatformWindows()) {
-            try {
-                // Check for insecure certificates to remove.
-                // This is Windows-dependant code but it can't go to preStartupHook (need i18n)
-                // neither startupHook (need to be called before remote control)
-                PlatformHookWindows.removeInsecureCertificates();
-            } catch (NoSuchAlgorithmException | CertificateException | KeyStoreException | IOException e) {
-                Logging.error(e);
+        if (!skipJosmGui) {
+            if (!skipLoadingPlugins) {
+                loadLatePlugins(splash, monitor, pluginsToLoad);
             }
-        }
 
-        if (RemoteControl.PROP_REMOTECONTROL_ENABLED.get()) {
-            RemoteControl.start();
-        }
+            // Wait for splash disappearance (fix #9714)
+            GuiHelper.runInEDTAndWait(() -> {
+                splash.setVisible(false);
+                splash.dispose();
+                mainFrame.setVisible(true);
+            });
 
-        if (MessageNotifier.PROP_NOTIFIER_ENABLED.get()) {
-            MessageNotifier.start();
-        }
+            boolean maximized = Config.getPref().getBoolean("gui.maximized", false);
+            if ((!args.hasOption(Option.NO_MAXIMIZE) && maximized) || args.hasOption(Option.MAXIMIZE)) {
+                mainFrame.setMaximized(true);
+            }
+            if (menu.fullscreenToggleAction != null) {
+                menu.fullscreenToggleAction.initial();
+            }
 
-        if (Config.getPref().getBoolean("debug.edt-checker.enable", Version.getInstance().isLocalBuild())) {
-            // Repaint manager is registered so late for a reason - there is lots of violation during startup process
-            // but they don't seem to break anything and are difficult to fix
-            Logging.info("Enabled EDT checker, wrongful access to gui from non EDT thread will be printed to console");
-            RepaintManager.setCurrentManager(new CheckThreadViolationRepaintManager());
+            SwingUtilities.invokeLater(new GuiFinalizationWorker(args, proxySelector));
+
+            if (Main.isPlatformWindows()) {
+                try {
+                    // Check for insecure certificates to remove.
+                    // This is Windows-dependant code but it can't go to preStartupHook (need i18n)
+                    // neither startupHook (need to be called before remote control)
+                    PlatformHookWindows.removeInsecureCertificates();
+                } catch (NoSuchAlgorithmException | CertificateException | KeyStoreException | IOException e) {
+                    Logging.error(e);
+                }
+            }
+
+            if (RemoteControl.PROP_REMOTECONTROL_ENABLED.get()) {
+                RemoteControl.start();
+            }
+
+            if (MessageNotifier.PROP_NOTIFIER_ENABLED.get()) {
+                MessageNotifier.start();
+            }
+
+            if (Config.getPref().getBoolean("debug.edt-checker.enable", Version.getInstance().isLocalBuild())) {
+                // Repaint manager is registered so late for a reason - there is lots of violation during startup process
+                // but they don't seem to break anything and are difficult to fix
+                Logging.info("Enabled EDT checker, wrongful access to gui from non EDT thread will be printed to console");
+                RepaintManager.setCurrentManager(new CheckThreadViolationRepaintManager());
+            }
         }
     }
 

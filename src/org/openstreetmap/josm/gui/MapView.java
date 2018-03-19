@@ -911,7 +911,6 @@ LayerManager.LayerChangeListener, MainLayerManager.ActiveLayerChangeListener {
     public void scheduleZoomTo(ViewportData viewportData) {
         initialViewport = viewportData;
     }
-
     /**
      * Returns the internal {@link MapMover}.
      * @return the internal {@code MapMover}
