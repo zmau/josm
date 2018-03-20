@@ -297,9 +297,10 @@ LayerManager.LayerChangeListener, MainLayerManager.ActiveLayerChangeListener {
 
         setFocusTraversalKeysEnabled(!Shortcut.findShortcut(KeyEvent.VK_TAB, 0).isPresent());
 
-        for (JComponent c : getMapNavigationComponents(this)) {
-            add(c);
-        }
+        if(MainApplication.visibleCategories.get("NavigationComponents"))
+            for (JComponent c : getMapNavigationComponents(this)) {
+                add(c);
+            }
         if (AutoFilterManager.PROP_AUTO_FILTER_ENABLED.get()) {
             AutoFilterManager.getInstance().enableAutoFilterRule(AutoFilterManager.PROP_AUTO_FILTER_RULE.get());
         }

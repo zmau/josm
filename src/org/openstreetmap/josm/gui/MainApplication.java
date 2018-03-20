@@ -35,6 +35,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -983,11 +984,10 @@ public class MainApplication extends Main {
 
         setupCallbacks();
 
-        boolean skipJosmGui = true;
         final SplashScreen splash = GuiHelper.runInEDTAndWaitAndReturn(SplashScreen::new);
         final SplashScreen.SplashProgressMonitor monitor = splash.getProgressMonitor();
         Collection<PluginInformation> pluginsToLoad = null;
-        if(!skipJosmGui){
+        if(!shouldSkipJOSMGUI()){
             monitor.beginTask(tr("Initializing"));
             GuiHelper.runInEDT(() -> splash.setVisible(Config.getPref().getBoolean("draw.splashscreen", true)));
             Main.setInitStatusListener(new InitStatusListener() {
@@ -1015,7 +1015,7 @@ public class MainApplication extends Main {
         }
         toolbar = new ToolbarPreferences();
         ProjectionPreference.setProjection();
-        if(!skipJosmGui){
+        if(!shouldSkipJOSMGUI()){
             setupNadGridSources();
             GuiHelper.translateJavaInternalMessages();
             preConstructorInit();
@@ -1025,7 +1025,7 @@ public class MainApplication extends Main {
         final Main main = new MainApplication(mainFrame);
         main.initialize();
 
-        if (!skipJosmGui) {
+        if (!shouldSkipJOSMGUI()) {
             if (!skipLoadingPlugins) {
                 loadLatePlugins(splash, monitor, pluginsToLoad);
             }
@@ -1074,7 +1074,11 @@ public class MainApplication extends Main {
             }
         }
     }
-
+    public static boolean directlyTriggered = true;
+    private static boolean skipJosmGui = true;
+    private static boolean shouldSkipJOSMGUI(){
+        return !directlyTriggered && skipJosmGui;
+    }
     /**
      * Updates system properties with the current values in the preferences.
      */
@@ -1515,4 +1519,17 @@ public class MainApplication extends Main {
                 .show();
         });
     }
+
+    public static Map<String, Boolean> visibleCategories = defaultVisibility();
+
+    private static Map<String, Boolean> defaultVisibility(){
+        HashMap<String, Boolean> v = new HashMap<>();
+        v.put("NavigationComponents", false);
+        v.put("VirtualNodes", false);
+        v.put("LinesAndAreas", true);
+        v.put("DiagonalTiles", true);
+        return v;
+    }
+
+
 }

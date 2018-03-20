@@ -60,6 +60,7 @@ import org.openstreetmap.josm.data.preferences.AbstractProperty;
 import org.openstreetmap.josm.data.preferences.BooleanProperty;
 import org.openstreetmap.josm.data.preferences.IntegerProperty;
 import org.openstreetmap.josm.data.preferences.StringProperty;
+import org.openstreetmap.josm.gui.MainApplication;
 import org.openstreetmap.josm.gui.MapViewState.MapViewPoint;
 import org.openstreetmap.josm.gui.NavigatableComponent;
 import org.openstreetmap.josm.gui.draw.MapViewPath;
@@ -192,7 +193,7 @@ public class StyledMapRenderer extends AbstractMapRenderer {
          * @param painter The painter to paint the style.
          */
         public void paintPrimitive(MapPaintSettings paintSettings, StyledMapRenderer painter) {
-            style.paintPrimitive( //everything except zoom slider, distancer, diagonal tile and yellow plus signs
+            style.paintPrimitive( //lines and areas, maybe something more
                     osm,
                     paintSettings,
                     painter,
@@ -1616,11 +1617,13 @@ public class StyledMapRenderer extends AbstractMapRenderer {
                 return;
             }
 
-            for (StyleRecord record : sorted) {//everything except zoom slider, distancer, diagonal tile and yellow plus signs
-                paintRecord(record);
-            }
+            if(MainApplication.visibleCategories.get("LinesAndAreas"))
+                for (StyleRecord record : sorted) {//lines and areas, maybe something more
+                    paintRecord(record);
+                }
 
-            drawVirtualNodes(data, bbox); // yellow plus signs
+            if(MainApplication.visibleCategories.get("VirtualNodes"))
+                drawVirtualNodes(data, bbox); // yellow plus signs
 
             benchmark.renderDone();
         } catch (JosmRuntimeException | IllegalArgumentException | IllegalStateException e) {
