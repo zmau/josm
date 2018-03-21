@@ -11,6 +11,7 @@ import org.openstreetmap.josm.data.osm.OsmPrimitive;
 import org.openstreetmap.josm.data.osm.visitor.paint.MapPaintSettings;
 import org.openstreetmap.josm.data.osm.visitor.paint.PaintColors;
 import org.openstreetmap.josm.data.osm.visitor.paint.StyledMapRenderer;
+import org.openstreetmap.josm.gui.MainApplication;
 import org.openstreetmap.josm.gui.mappaint.Cascade;
 import org.openstreetmap.josm.gui.mappaint.Environment;
 import org.openstreetmap.josm.gui.mappaint.Keyword;
@@ -283,9 +284,10 @@ public class BoxTextElement extends StyleElement {
     @Override
     public void paintPrimitive(OsmPrimitive osm, MapPaintSettings settings, StyledMapRenderer painter,
             boolean selected, boolean outermember, boolean member) {
-        if (osm instanceof Node) {
-            painter.drawBoxText((Node) osm, this);
-        }
+        if(MainApplication.visibleCategories.get("TextBoxes"))
+            if (osm instanceof Node) {
+                painter.drawBoxText((Node) osm, this);
+            }
     }
 
     @Override

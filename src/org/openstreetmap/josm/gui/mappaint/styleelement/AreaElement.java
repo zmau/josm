@@ -12,6 +12,7 @@ import org.openstreetmap.josm.data.osm.Way;
 import org.openstreetmap.josm.data.osm.visitor.paint.MapPaintSettings;
 import org.openstreetmap.josm.data.osm.visitor.paint.StyledMapRenderer;
 import org.openstreetmap.josm.data.preferences.IntegerProperty;
+import org.openstreetmap.josm.gui.MainApplication;
 import org.openstreetmap.josm.gui.mappaint.Cascade;
 import org.openstreetmap.josm.gui.mappaint.Environment;
 import org.openstreetmap.josm.gui.mappaint.MapPaintStyles.IconReference;
@@ -123,19 +124,24 @@ public class AreaElement extends StyleElement {
             boolean selected, boolean outermember, boolean member) { // nothing in Phoenix example
         Color myColor = color;
         if (osm instanceof Way) {
-            if (color != null) {
-                if (selected) {
-                    myColor = paintSettings.getSelectedColor(color.getAlpha());
-                } else if (outermember) {
+            if(MainApplication.visibleCategories.get("AreaWays")){
+                if (color != null) {
+                    if (selected) {
+                        myColor = paintSettings.getSelectedColor(color.getAlpha());
+                    } else if (outermember) {
+                        myColor = paintSettings.getRelationSelectedColor(color.getAlpha());
+                    }
+                }
+                painter.drawArea((Way) osm, myColor, fillImage, extent, extentThreshold, painter.isInactiveMode() || osm.isDisabled());
+            }
+        }
+        else if (osm instanceof Relation) {
+            if(MainApplication.visibleCategories.get("AreaRelations")){
+                if (color != null && (selected || outermember)) {
                     myColor = paintSettings.getRelationSelectedColor(color.getAlpha());
                 }
+                painter.drawArea((Relation) osm, myColor, fillImage, extent, extentThreshold, painter.isInactiveMode() || osm.isDisabled());
             }
-            painter.drawArea((Way) osm, myColor, fillImage, extent, extentThreshold, painter.isInactiveMode() || osm.isDisabled());
-        } else if (osm instanceof Relation) {
-            if (color != null && (selected || outermember)) {
-                myColor = paintSettings.getRelationSelectedColor(color.getAlpha());
-            }
-            painter.drawArea((Relation) osm, myColor, fillImage, extent, extentThreshold, painter.isInactiveMode() || osm.isDisabled());
         }
     }
 

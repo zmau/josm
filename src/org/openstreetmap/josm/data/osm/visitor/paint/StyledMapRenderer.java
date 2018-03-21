@@ -193,7 +193,7 @@ public class StyledMapRenderer extends AbstractMapRenderer {
          * @param painter The painter to paint the style.
          */
         public void paintPrimitive(MapPaintSettings paintSettings, StyledMapRenderer painter) {
-            style.paintPrimitive( //lines and areas, maybe something more
+            style.paintPrimitive(
                     osm,
                     paintSettings,
                     painter,
@@ -412,28 +412,31 @@ public class StyledMapRenderer extends AbstractMapRenderer {
             Shape area = path;
             g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
             if (fillImage == null) {
-                if (isInactiveMode) {
-                    g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.33f));
-                }
-                g.setColor(color);
-                if (extent == null) {
-                    g.fill(area);
-                } else {
-                    Shape oldClip = g.getClip();
-                    Shape clip = area;
-                    if (pfClip != null) {
-                        clip = pfClip.createTransformedShape(mapState.getAffineTransform());
+                if(MainApplication.visibleCategories.get("AreasWithImage")){
+                    if (isInactiveMode) {
+                        g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.33f));
                     }
-                    g.clip(clip);
-                    g.setStroke(new BasicStroke(2 * extent, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 4));
-                    g.draw(area);
-                    g.setClip(oldClip);
-                    g.setStroke(new BasicStroke());
+                    g.setColor(color);
+                    if (extent == null) {
+                        g.fill(area);
+                    } else {
+                        Shape oldClip = g.getClip();
+                        Shape clip = area;
+                        if (pfClip != null) {
+                            clip = pfClip.createTransformedShape(mapState.getAffineTransform());
+                        }
+                        g.clip(clip);
+                        g.setStroke(new BasicStroke(2 * extent, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 4));
+                        g.draw(area);
+                        g.setClip(oldClip);
+                        g.setStroke(new BasicStroke());
+                    }
                 }
             } else {
                 Image img = fillImage.getImage(disabled);
                 // TexturePaint requires BufferedImage -> get base image from
                 // possible multi-resolution image
+                if(MainApplication.visibleCategories.get("AreasWithImage")){
                 img = HiDPISupport.getBaseImage(img);
                 TexturePaint texture = new TexturePaint((BufferedImage) img,
                         new Rectangle(0, 0, fillImage.getWidth(), fillImage.getHeight()));
@@ -456,7 +459,8 @@ public class StyledMapRenderer extends AbstractMapRenderer {
                     g.setClip(oldClip);
                 }
                 g.setPaintMode();
-            }
+        }
+                }
             g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, antialiasing);
         }
     }
@@ -1617,10 +1621,9 @@ public class StyledMapRenderer extends AbstractMapRenderer {
                 return;
             }
 
-            if(MainApplication.visibleCategories.get("LinesAndAreas"))
-                for (StyleRecord record : sorted) {//lines and areas, maybe something more
-                    paintRecord(record);
-                }
+            for (StyleRecord record : sorted) {//lines and areas, maybe something more
+                paintRecord(record);
+            }
 
             if(MainApplication.visibleCategories.get("VirtualNodes"))
                 drawVirtualNodes(data, bbox); // yellow plus signs

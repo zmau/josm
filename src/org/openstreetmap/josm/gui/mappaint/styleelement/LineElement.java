@@ -13,6 +13,7 @@ import org.openstreetmap.josm.data.osm.Way;
 import org.openstreetmap.josm.data.osm.visitor.paint.MapPaintSettings;
 import org.openstreetmap.josm.data.osm.visitor.paint.PaintColors;
 import org.openstreetmap.josm.data.osm.visitor.paint.StyledMapRenderer;
+import org.openstreetmap.josm.gui.MainApplication;
 import org.openstreetmap.josm.gui.mappaint.Cascade;
 import org.openstreetmap.josm.gui.mappaint.Environment;
 import org.openstreetmap.josm.gui.mappaint.Keyword;
@@ -156,24 +157,34 @@ public class LineElement extends StyleElement {
 
         if (primitive instanceof Way) {
             Way w = (Way) primitive;
-            painter.drawWay(w, myColor, myLine, myDashLine, myDashedColor, offset, showOrientation, // all real lines
-                    showOnlyHeadArrowOnly, showOneway, onewayReversed);
+            boolean circularLine = isCircular(w);
+            boolean shouldShowLine = (circularLine && MainApplication.visibleCategories.get("CircularLines"))
+                    || (!circularLine && MainApplication.visibleCategories.get("OpenLines"));
+            if(shouldShowLine){
+                painter.drawWay(w, myColor, myLine, myDashLine, myDashedColor, offset, showOrientation, // all real lines
+                        showOnlyHeadArrowOnly, showOneway, onewayReversed);
 
-            if ((paintSettings.isShowOrderNumber() || (paintSettings.isShowOrderNumberOnSelectedWay() && selected))
-                    && !painter.isInactiveMode()) {
-                int orderNumber = 0;
-                lastN = null;
-                for (Node n : w.getNodes()) {
-                    if (lastN != null) {
-                        orderNumber++;
-                        painter.drawOrderNumber(lastN, n, orderNumber, myColor); // probably nothing
+                if ((paintSettings.isShowOrderNumber() || (paintSettings.isShowOrderNumberOnSelectedWay() && selected))
+                        && !painter.isInactiveMode()) {
+                    int orderNumber = 0;
+                    lastN = null;
+                    for (Node n : w.getNodes()) {
+                        if (lastN != null) {
+                            orderNumber++;
+                            painter.drawOrderNumber(lastN, n, orderNumber, myColor); // probably nothing
+                        }
+                        lastN = n;
                     }
-                    lastN = n;
                 }
             }
         }
     }
 
+    private boolean isCircular(Way w){
+        Node first = w.getNode(0);
+        Node last = w.getNode(w.getNodesCount()-1);
+        return first.equals(last);
+    }
     @Override
     public boolean isProperLineStyle() {
         return !isModifier;

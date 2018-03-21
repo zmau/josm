@@ -1526,8 +1526,17 @@ public class MainApplication extends Main {
         HashMap<String, Boolean> v = new HashMap<>();
         v.put("NavigationComponents", false);
         v.put("VirtualNodes", false);
-        v.put("LinesAndAreas", true);
-        v.put("DiagonalTiles", true);
+        v.put("AreaWays", false); // nothing in Ph
+        v.put("AreaRelations", false); // probably nothing in Ph
+        v.put("AreasWithImage", false);
+        v.put("TextBoxes", false);
+        v.put("AreaIcons", false);
+        v.put("CircularLines", false); //buildings
+        v.put("OpenLines", true);   // streets
+        v.put("Nodes", false);
+        v.put("RepeatImages", false);
+        v.put("Text", false);
+        //v.put("DiagonalTiles", false);
         return v;
     }
 
