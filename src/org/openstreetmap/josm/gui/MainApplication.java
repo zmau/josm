@@ -1524,18 +1524,18 @@ public class MainApplication extends Main {
 
     private static Map<String, Boolean> defaultVisibility(){
         HashMap<String, Boolean> v = new HashMap<>();
-        v.put("NavigationComponents", false);
-        v.put("VirtualNodes", false);
-        v.put("AreaWays", false); // nothing in Ph
-        v.put("AreaRelations", false); // probably nothing in Ph
-        v.put("AreasWithImage", false);
-        v.put("TextBoxes", false);
-        v.put("AreaIcons", false);
-        v.put("CircularLines", false); //buildings
+        v.put("NavigationComponents", true);
+        v.put("VirtualNodes", true);
+        v.put("AreaWays", true); // nothing in Ph
+        v.put("AreaRelations", true); // probably nothing in Ph
+        v.put("AreasWithImage", true);
+        v.put("TextBoxes", true);
+        v.put("AreaIcons", true);
+        v.put("CircularLines", true); //buildings
         v.put("OpenLines", true);   // streets
-        v.put("Nodes", false);
-        v.put("RepeatImages", false);
-        v.put("Text", false);
+        v.put("Nodes", true);
+        v.put("RepeatImages", true);
+        v.put("Text", true);
         //v.put("DiagonalTiles", false);
         return v;
     }
