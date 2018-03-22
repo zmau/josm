@@ -154,6 +154,10 @@ public class LineElement extends StyleElement {
             myColor = paintSettings.getInactiveColor();
             myDashedColor = paintSettings.getInactiveColor();
         }
+        if(MainApplication.BLACK_WHITE_MODE){
+            myColor = Color.black;
+            myDashedColor = Color.black;
+        }
 
         if (primitive instanceof Way) {
             Way w = (Way) primitive;

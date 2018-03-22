@@ -1524,15 +1524,15 @@ public class MainApplication extends Main {
 
     private static Map<String, Boolean> defaultVisibility(){
         HashMap<String, Boolean> v = new HashMap<>();
-        v.put("NavigationComponents", true);
+        v.put("NavigationComponents", true); //TODO process all object types, set drawing color to black!
         v.put("VirtualNodes", true);
         v.put("AreaWays", true); // nothing in Ph
         v.put("AreaRelations", true); // probably nothing in Ph
         v.put("AreasWithImage", true);
         v.put("TextBoxes", true);
         v.put("AreaIcons", true);
-        v.put("CircularLines", true); //buildings
-        v.put("OpenLines", true);   // streets
+        v.put("CircularLines", true); //buildings; covered for black
+        v.put("OpenLines", true);   // streets; covered for black
         v.put("Nodes", true);
         v.put("RepeatImages", true);
         v.put("Text", true);
@@ -1540,5 +1540,5 @@ public class MainApplication extends Main {
         return v;
     }
 
-
+    public static boolean BLACK_WHITE_MODE = false;
 }
