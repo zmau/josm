@@ -12,6 +12,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.TreeSet;
 
+import org.openstreetmap.josm.gui.MainApplication;
 import org.openstreetmap.josm.spi.preferences.Config;
 import org.openstreetmap.josm.tools.Utils;
 
@@ -90,8 +91,9 @@ public class MapPaintPrefHelper extends SourcePrefHelper {
         defPL2.name = "standard";
         defPL2.title = tr("Potlatch 2");
         defPL2.description = tr("the main Potlatch 2 style");
-
-        return Arrays.asList(defJosmMapcss, defPL2);
+        if(MainApplication.BLACK_WHITE_MODE)
+            return Arrays.asList(defJosmMapcss);
+        else return Arrays.asList(defJosmMapcss, defPL2);
     }
 
     @Override
