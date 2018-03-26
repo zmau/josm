@@ -855,7 +855,8 @@ public class MainApplication extends Main {
      * @param args program arguments
      */
     public static void mainJOSM(ProgramArguments args) {
-
+        if(commandLineArgs == null)
+            commandLineArgs = new ArrayList<>();
         if (!GraphicsEnvironment.isHeadless()) {
             BugReportQueue.getInstance().setBugReportHandler(BugReportDialog::showFor);
             BugReportSender.setBugReportSendingHandler(BugReportDialog.bugReportSendingHandler);
