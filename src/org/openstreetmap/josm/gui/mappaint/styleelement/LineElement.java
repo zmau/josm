@@ -161,9 +161,9 @@ public class LineElement extends StyleElement {
 
         if (primitive instanceof Way) {
             Way w = (Way) primitive;
-            boolean circularLine = isCircular(w);
-            boolean shouldShowLine = (circularLine && MainApplication.visibleCategories.get("CircularLines"))
-                    || (!circularLine && MainApplication.visibleCategories.get("OpenLines"));
+            boolean shouldShowLine = (w.isArea() ?
+                    MainApplication.visibleCategories.get("CircularLines")
+                  : MainApplication.visibleCategories.get("OpenLines"));
             if(shouldShowLine){
                 painter.drawWay(w, myColor, myLine, myDashLine, myDashedColor, offset, showOrientation, // all real lines
                         showOnlyHeadArrowOnly, showOneway, onewayReversed);
@@ -184,11 +184,6 @@ public class LineElement extends StyleElement {
         }
     }
 
-    private boolean isCircular(Way w){
-        Node first = w.getNode(0);
-        Node last = w.getNode(w.getNodesCount()-1);
-        return first.equals(last);
-    }
     @Override
     public boolean isProperLineStyle() {
         return !isModifier;
