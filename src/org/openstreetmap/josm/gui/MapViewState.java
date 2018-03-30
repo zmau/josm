@@ -101,6 +101,7 @@ public final class MapViewState implements Serializable {
         CheckParameterUtil.ensureParameterNotNull(topLeftInWindow, "topLeftInWindow");
         CheckParameterUtil.ensureParameterNotNull(topLeftOnScreen, "topLeftOnScreen");
 
+        System.out.println(String.format("creating MapViewState, %dx%d, scale = %f, topLeft = %s", viewWidth, viewHeight, scale, topLeft.toString()));
         this.projecting = projection;
         this.scale = scale;
         this.topLeft = topLeft;
@@ -350,6 +351,7 @@ public final class MapViewState implements Serializable {
         if (delta.distanceSq(0, 0) < .1e-20) {
             return this;
         } else {
+            System.out.println(String.format("mapViewPoint : %s; there : %s; delta : %s; topleft : %s; movedTo : %s", mapViewPoint, newEastNorthThere, delta, topLeft, topLeft.add(delta)));
             return new MapViewState(topLeft.add(delta), this);
         }
     }
@@ -404,6 +406,7 @@ public final class MapViewState implements Serializable {
         double scale = projection.getDefaultZoomInPPD();
         MapViewState state = new MapViewState(projection, width, height, scale, new EastNorth(0, 0));
         EastNorth center = calculateDefaultCenter();
+        System.out.println("DefaultCenter = " + center);
         return state.movedTo(state.getCenter(), center);
     }
 

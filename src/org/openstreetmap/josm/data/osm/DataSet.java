@@ -1502,6 +1502,7 @@ public final class DataSet extends QuadBucketPrimitiveStore implements Data, Pro
         BoundingXYVisitor bbox = new BoundingXYVisitor();
         for (DataSource source : dataSources) {
             bbox.visit(source.bounds);
+            System.out.println(String.format("DataSourceBoundingBox %s -> %s", source.bounds, bbox.getBounds()));
         }
         if (bbox.hasExtend()) {
             return bbox.getBounds();

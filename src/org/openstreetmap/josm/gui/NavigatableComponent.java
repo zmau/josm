@@ -804,7 +804,7 @@ public class NavigatableComponent extends JComponent implements Helpful {
         double scaleX = (box.maxEast-box.minEast)/w;
         double scaleY = (box.maxNorth-box.minNorth)/h;
         double newScale = Math.max(scaleX, scaleY);
-
+        System.out.println(String.format("bounds : %s, center : %s; dim =%dx%d; scale : %f", box.toString(), box.getCenter().toString(), w, h, newScale));
         newScale = scaleFloor(newScale);
         zoomTo(box.getCenter(), newScale);
     }

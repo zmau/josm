@@ -707,7 +707,7 @@ public class MainApplication extends Main {
         InputMap inputMap = contentPanePrivate.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
         Object existing = inputMap.get(keyStroke);
         if (existing != null && !existing.equals(action)) {
-            Logging.info(String.format("Keystroke %s is already assigned to %s, will be overridden by %s", keyStroke, existing, action));
+            Logging.trace(String.format("Keystroke %s is already assigned to %s, will be overridden by %s", keyStroke, existing, action));
         }
         inputMap.put(keyStroke, action);
 
