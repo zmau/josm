@@ -101,7 +101,7 @@ public class NavigatableComponent extends JComponent implements Helpful {
     };
 
     /** Snap distance */
-    public static final IntegerProperty PROP_SNAP_DISTANCE = new IntegerProperty("mappaint.node.snap-distance", 10);
+    public static final IntegerProperty PROP_SNAP_DISTANCE = new IntegerProperty("mappaint.node.snap-distance", 60);
     /** Zoom steps to get double scale */
     public static final DoubleProperty PROP_ZOOM_RATIO = new DoubleProperty("zoom.ratio", 2.0);
     /** Divide intervals between native resolution levels to smaller steps if they are much larger than zoom ratio */
@@ -804,7 +804,7 @@ public class NavigatableComponent extends JComponent implements Helpful {
         double scaleX = (box.maxEast-box.minEast)/w;
         double scaleY = (box.maxNorth-box.minNorth)/h;
         double newScale = Math.max(scaleX, scaleY);
-        System.out.println(String.format("bounds : %s, center : %s; dim =%dx%d; scale : %f", box.toString(), box.getCenter().toString(), w, h, newScale));
+        //System.out.println(String.format("bounds : %s, center : %s; dim =%dx%d; scale : %f", box.toString(), box.getCenter().toString(), w, h, newScale));
         newScale = scaleFloor(newScale);
         zoomTo(box.getCenter(), newScale);
     }
@@ -1150,10 +1150,10 @@ public class NavigatableComponent extends JComponent implements Helpful {
         DataSet ds = MainApplication.getLayerManager().getActiveDataSet();
 
         if (ds != null) {
-            double snapDistanceSq = Config.getPref().getInt("mappaint.segment.snap-distance", 10);
+            double snapDistanceSq = Config.getPref().getInt("mappaint.segment.snap-distance", 60);
             snapDistanceSq *= snapDistanceSq;
 
-            for (Way w : ds.searchWays(getBBox(p, Config.getPref().getInt("mappaint.segment.snap-distance", 10)))) {
+            for (Way w : ds.searchWays(getBBox(p, Config.getPref().getInt("mappaint.segment.snap-distance", 60)))) {
                 if (!predicate.test(w)) {
                     continue;
                 }
