@@ -1541,5 +1541,5 @@ public class MainApplication extends Main {
         return v;
     }
 
-    public static boolean BLACK_WHITE_MODE = false;
+    public static boolean blackWhiteMode = false;
 }

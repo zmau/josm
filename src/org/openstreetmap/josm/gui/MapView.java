@@ -553,7 +553,7 @@ LayerManager.LayerChangeListener, MainLayerManager.ActiveLayerChangeListener {
             Graphics2D g2 = nonChangedLayersBuffer.createGraphics();
             g2.setClip(scaledClip);
             g2.setTransform(trDef);
-            if(MainApplication.BLACK_WHITE_MODE)
+            if(MainApplication.blackWhiteMode)
                 g2.setColor(Color.WHITE);
             else g2.setColor(PaintColors.getBackgroundColor());
             g2.fillRect(0, 0, width, height);
