@@ -136,7 +136,7 @@ public abstract class PleaseWaitRunnable implements Runnable, CancelListener {
     }
 
     @Override
-    public final void run() {
+    public void run() { /*needed to override this for junit testing*/
         if (EventQueue.isDispatchThread()) {
             new Thread((Runnable) this::doRealRun, getClass().getName()).start();
         } else {
