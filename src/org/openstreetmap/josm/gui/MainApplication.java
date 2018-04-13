@@ -1537,9 +1537,10 @@ public class MainApplication extends Main {
         v.put("Nodes", true);
         v.put("RepeatImages", true);
         v.put("Text", true);
-        //v.put("DiagonalTiles", false);
+        v.put("DiagonalTiles", false);
         return v;
     }
 
+    public static boolean lowResMode = false;
     public static boolean blackWhiteMode = false;
 }
