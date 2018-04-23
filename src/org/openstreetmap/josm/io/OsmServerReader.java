@@ -153,6 +153,7 @@ public abstract class OsmServerReader extends OsmConnection {
     protected InputStream getInputStreamRaw(String urlStr, ProgressMonitor progressMonitor, String reason,
             boolean uncompressAccordingToContentDisposition, String httpMethod, byte[] requestBody) throws OsmTransferException {
         try {
+            System.out.println(urlStr + "; " + requestBody.toString());
             OnlineResource.JOSM_WEBSITE.checkOfflineAccess(urlStr, Main.getJOSMWebsite());
             OnlineResource.OSM_API.checkOfflineAccess(urlStr, OsmApi.getOsmApi().getServerUrl());
 

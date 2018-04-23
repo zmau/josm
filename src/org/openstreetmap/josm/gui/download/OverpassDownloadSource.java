@@ -63,6 +63,7 @@ public class OverpassDownloadSource implements DownloadSource<OverpassDownloadSo
         Future<?> future = task.download(
                 new OverpassDownloadReader(area, OverpassDownloadReader.OVERPASS_SERVER.get(), data.getQuery()),
                 settings.asNewLayer(), area, null);
+        System.out.println("triggered download");
         MainApplication.worker.submit(new PostDownloadHandler(task, future, data.getErrorReporter()));
     }
 

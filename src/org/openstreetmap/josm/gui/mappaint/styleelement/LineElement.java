@@ -133,10 +133,8 @@ public class LineElement extends StyleElement {
         Color myDashedColor = dashesBackground;
         BasicStroke myLine = line, myDashLine = dashesLine;
 
-        if(MainApplication.lowResMode){
-            int lineWidth = (int)((myLine.getLineWidth()-1) / 2) + 1; // maybe provide a few different conversion logics ? and even commands to switch between them ?
-            myLine = new BasicStroke(lineWidth, myLine.getEndCap(),myLine.getLineJoin(),myLine.getMiterLimit(),myLine.getDashArray(),myLine.getDashPhase());
-        }
+        if(MainApplication.lowResMode)
+            myLine = new BasicStroke(1, myLine.getEndCap(),myLine.getLineJoin(),myLine.getMiterLimit(),myLine.getDashArray(),myLine.getDashPhase());
 
         if (realWidth > 0 && paintSettings.isUseRealWidth() && !showOrientation) {
             float myWidth = (int) (100 / (float) (painter.getCircum() / realWidth));

@@ -60,7 +60,10 @@ public class PostDownloadHandler implements Runnable {
         // wait for downloads task to finish (by waiting for the future to return a value)
         //
         try {
-            future.get();
+            System.out.println("waiting for result... ");
+            Object result = future.get();
+            System.out.println("future result = " + result.toString());
+
         } catch (InterruptedException | ExecutionException | CancellationException e) {
             Logging.error(e);
             return;
