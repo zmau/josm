@@ -406,7 +406,6 @@ public final class MapViewState implements Serializable {
         double scale = projection.getDefaultZoomInPPD();
         MapViewState state = new MapViewState(projection, width, height, scale, new EastNorth(0, 0));
         EastNorth center = calculateDefaultCenter();
-        System.out.println("DefaultCenter = " + center);
         return state.movedTo(state.getCenter(), center);
     }
 

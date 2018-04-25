@@ -314,6 +314,7 @@ public class OverpassDownloadReader extends BoundingBoxDownloader {
                                             boolean uncompressAccordingToContentDisposition) throws OsmTransferException {
         try {
             int index = urlStr.indexOf(DATA_PREFIX);
+            System.out.println(urlStr.substring(0, index) + Utils.decodeUrl(urlStr.substring(index + DATA_PREFIX.length())));
             // Make an HTTP POST request instead of a simple GET, allows more complex queries
             return super.getInputStreamRaw(urlStr.substring(0, index),
                     progressMonitor, reason, uncompressAccordingToContentDisposition,
