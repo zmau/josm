@@ -195,6 +195,7 @@ public abstract class OsmServerReader extends OsmConnection {
                 OsmTransferException ote = new OsmTransferException(
                         tr("Could not connect to the OSM server. Please check your internet connection."), e);
                 ote.setUrl(url.toString());
+                System.out.println(ote.getMessage() + "; " + e.getMessage());
                 throw ote;
             }
             try {
