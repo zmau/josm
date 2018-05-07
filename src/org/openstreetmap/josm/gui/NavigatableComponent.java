@@ -306,6 +306,7 @@ public class NavigatableComponent extends JComponent implements Helpful {
      * Zoom in current view. Use configured zoom step and scaling settings.
      */
     public void zoomIn() {
+        System.out.println("zooming to " + scaleZoomIn() + "; scale = " + getScale());
         zoomTo(state.getCenter().getEastNorth(), scaleZoomIn());
     }
 
@@ -694,6 +695,7 @@ public class NavigatableComponent extends JComponent implements Helpful {
      * @param initial true if this call initializes the viewport.
      */
     private void zoomNoUndoTo(EastNorth newCenter, double newScale, boolean initial) {
+        System.out.println("zooming to " + newCenter + "; " + newScale);
         if (!Utils.equalsEpsilon(getScale(), newScale)) {
             state = state.usingScale(newScale);
         }
@@ -711,6 +713,7 @@ public class NavigatableComponent extends JComponent implements Helpful {
      * @param newCenter new center coordinates
      */
     public void zoomTo(EastNorth newCenter) {
+        System.out.println("shifting; scale = " + getScale());
         zoomTo(newCenter, getScale());
     }
 
